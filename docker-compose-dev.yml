@@ -1,0 +1,63 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+      args:
+        CONFIGURATION: development
+    networks:
+      - front-back-network
+    ports:
+      - '4201:4200'  #  - '4200:4200'   - 'port_externe_au_container:port_dans_le_container'
+    volumes:
+      - type: bind
+        source: ./frontend
+        target: /usr/src/app
+    depends_on:
+      - backend
+    restart: always
+
+
+  backend:
+    build:
+      context: ./back
+      target: dev
+    ports:
+      - "9003:8080"
+    volumes:
+      - ./back/:/workspace/app
+    depends_on:
+      - mysqldb
+    restart: always
+    networks:
+      - spring-mysql-network
+      - front-back-network
+    environment:
+      MYSQL_HOST: jdbc:mysql://mysqldb:3306/dockerDb?createDatabaseIfNotExist=true
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dockerDb
+      MYSQL_USER: yvens
+      MYSQL_PASSWORD: yvens_password
+
+  mysqldb:
+    image: "mysql:8.2.0"
+    volumes:
+      - docker-mysql-volume:/var/lib/mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    expose:
+      - 3306
+    networks:
+      - spring-mysql-network
+    environment:
+      # MYSQL_HOST: jdbc:mysql://localhost:3306/dockerDb?createDatabaseIfNotExist=true
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dockerDb
+      MYSQL_USER: yvens
+      MYSQL_PASSWORD: yvens_password
+volumes:
+  docker-mysql-volume:
+networks:
+  spring-mysql-network:
+  front-back-network:
