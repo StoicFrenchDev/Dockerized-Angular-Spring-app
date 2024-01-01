@@ -1,4 +1,5 @@
-FROM eclipse-temurin:21-jdk as base
+
+FROM eclipse-temurin:21-jdk AS base
 
 WORKDIR /workspace/app
 VOLUME /tmp
@@ -9,16 +10,16 @@ COPY pom.xml .
 COPY src src
 RUN ./mvnw dependency:resolve
 
-FROM base as dev
+FROM base AS dev
 CMD ["./mvnw", "spring-boot:run"]
 
-# To add at the end of the presentation
-FROM base as test
+FROM base AS test
 CMD ["./mvnw", "test"]
 
-FROM base as build
+# Production phase
+FROM base AS build
 RUN ./mvnw package
 
-FROM eclipse-temurin:21-jre-jammy as production
+FROM eclipse-temurin:21-jre-jammy AS production
 COPY --from=build /workspace/app/target/backend-0.0.1-SNAPSHOT.jar backend.jar
 CMD ["java", "-jar", "/backend.jar"]

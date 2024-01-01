@@ -1,4 +1,4 @@
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 WORKDIR /usr/src/app
 ARG CONFIGURATION
 
@@ -13,10 +13,10 @@ COPY . .
 
 RUN npm run build --configuration=$CONFIGURATION
 
-FROM build as dev
+FROM build AS dev
 CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-FROM nginx:1.21-alpine as prod
+FROM nginx:1.21-alpine AS prod
 
 # Use COPY --link to avoid breaking cache if we change the second stage base image
 COPY --link nginx.conf /etc/nginx/conf.d/default.conf
