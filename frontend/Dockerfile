@@ -1,3 +1,4 @@
+
 FROM node:18-alpine AS build
 WORKDIR /usr/src/app
 ARG CONFIGURATION
@@ -11,7 +12,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 
 COPY . .
 
-RUN npm run build --configuration=$CONFIGURATION
+RUN npm run build --configuration="$CONFIGURATION"
 
 FROM build AS dev
 CMD ["ng", "serve", "--host", "0.0.0.0"]
