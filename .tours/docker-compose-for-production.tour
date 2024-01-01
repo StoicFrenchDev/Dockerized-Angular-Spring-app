@@ -1,0 +1,42 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Docker Compose for Production",
+  "steps": [
+    {
+      "file": "docker-compose.yml",
+      "description": "This docker-compose.yml file is designed for setting up the production environment of our application.\r\n\r\nIt outlines configurations for an Angular frontend, a Spring Boot backend, and a MySQL database, optimized for performance and security.\r\n\r\nThe setup ensures stable and efficient operation, with considerations for secure networking, persistent data storage, and streamlined service deployment. \r\n\r\nSince we already detailed the file in charge of setting the dev environment, we will focus on the changes linked to the production environment.",
+      "line": 1
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "The target: prod in the build context indicates that the Docker build should use the prod stage defined in the Dockerfile.\r\n\r\nThis stage is likely optimized for production, without the additional development dependencies and might include different optimization steps like minification.",
+      "line": 5
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "The CONFIGURATION: production argument suggests that the Angular CLI will compile the application using production settings, which as we saw in the Angular Dockerfile is suited for prod as expected.",
+      "line": 7
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "The port mapping 4200:4200 is standard for both development and production. \r\n\r\nHowever, in production, you typically would not map the port directly but rather use a reverse proxy or load balancer in front of the application.",
+      "line": 11
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "The working_dir: /app directive in the production Docker Compose file plays a crucial role in ensuring a consistent and predictable environment for both the frontend and backend services.\r\n\r\nBy setting /app as the working directory for these services, we establish a standardized location inside the Docker container where the application's executable files and resources reside.\r\n\r\nThis configuration simplifies command execution and path references within the Docker container.\r\n\r\nFor instance, when commands are run within the container, they will be executed in the context of /app, eliminating the need for full path specifications and reducing potential errors related to file paths.\r\n\r\nThe choice of /app as the working directory aligns with common Docker practices, providing clarity and enhancing maintainability.\r\n\r\nIt helps developers and system administrators alike to quickly understand the container's internal structure, knowing where the application's core files are located.\r\n\r\nFurthermore, aligning this setting with the WORKDIR specified in the Dockerfiles for the frontend and backend ensures consistency across the entire application lifecycle, from development to production. This uniformity is vital in production environments to minimize unexpected behavior and facilitate smoother deployments and operations.\r\n\r\nOverall, working_dir: /app is a choice aiming at optimizing the production environment for reliability and ease of use, reflecting best practices in Docker container configuration.",
+      "line": 12
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "The context: ./java_21 gives the directory for the backend service,  containing a production-ready version of the application thanks to the Dockerfile.\r\n\r\nThe target: production indicates that the Docker build for the backend service should use the production stage in the Dockerfile.",
+      "line": 20
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "The production port configuration 8080:8080 is standard, similar to development, but again, as for the frontend you might typically use a reverse proxy in a production deployment.",
+      "line": 28
+    }
+  ],
+  "ref": "code-tour"
+}
