@@ -1,0 +1,157 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Docker Compose for Development",
+  "steps": [
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "This docker-compose-dev.yml file configures the development environment for our application, which includes an Angular frontend, a Spring Boot backend, and a MySQL database. \r\n\r\nWe will explore the setup for each component, focusing on how they are built, interconnected, and configured.",
+      "line": 1
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The frontend service is where the development environment for our Angular application is configured.",
+      "line": 2
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The build key specifies the context for building the Docker image, pointing to the ./frontend directory where the Dockerfile is located.\r\n\r\nThis context is where Docker looks for the Dockerfile and where the build process begins.",
+      "line": 4
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The target: dev line instructs Docker to target the dev stage in the Dockerfile.\r\n\r\nThis stage is specifically prepared for development, with settings and tools installed that are suitable for a development workflow, such as live reloading and source mapping.",
+      "line": 5
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "args is used to pass build arguments into the Docker build process.\r\n\r\nHere, 'CONFIGURATION: development' is specified, which corresponds to an Angular environment configuration we can find on the dedicated dockerfile.\r\n",
+      "line": 6
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The networks setting adds the frontend container to a custom network called front-back-network, facilitating connection and communication between the frontend and backend services within their isolated network.",
+      "line": 9
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The ports configuration binds the host's port 4201 to the container's port 4200.\r\n\r\nThis binding allows you to access the Angular development server running inside the container from your host machine's web browser by visiting http://localhost:4201.\r\n\r\nThe choice of port 4201 implies that the standard Angular port 4200 might be in use on the host, and this helps to avoid conflicts.",
+      "line": 11
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The volumes section is critical for development.\r\n\r\nIt uses a 'bind' mount type to map the local ./frontend directory to /usr/src/app in the container.\r\n\r\nThis setup means that any changes made to the source code on the host are immediately available within the container without needing to rebuild the image, enabling hot reloading.",
+      "line": 15
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "depends_on expresses dependency on the backend service.\r\n\r\nThis ensures the frontend service starts only after the backend service is up and running.\r\n\r\nIt’s a way to manage service startup order, which is crucial when the frontend relies on APIs provided by the backend.",
+      "line": 17
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "Lastly, restart: always is specified, meaning Docker will attempt to restart the frontend container automatically if it ever crashes.\r\n\r\nThis policy is especially useful during development to minimize downtime.",
+      "line": 18
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The build context points to ./back, which is the directory containing the backend's Dockerfile. \r\n\r\nThe target: dev specifies that Docker should build the backend image using the dev stage defined within the Dockerfile. \r\n\r\nThis stage typically includes dependencies and configurations necessary for development, such as debugging tools and environment-specific application properties.",
+      "line": 24
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The backend service defines the environment for our Spring Boot application. It's configured to ensure a smooth workflow and easy integration with other services, like the frontend and database.",
+      "line": 21
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The ports setting maps the host's port 9003 to the container's port 8080.\r\n\r\nPort 8080 is the default port for HTTP in Tomcat, which is commonly used in Spring Boot applications.\r\n\r\nBy exposing the application on port 9003, developers can access the API endpoints directly from their local machines.",
+      "line": 26
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The volumes configuration mounts the local ./back/ directory to /workspace/app inside the container.\r\n\r\nThis mount is important for development, as it allows for changes made locally to be reflected inside the running container without the need for a rebuild, facilitating a faster development cycle.",
+      "line": 28
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "With depends_on, the backend service will wait for the mysqldb service to become available before starting.\r\n\r\nThis ensures that the Spring Boot application can establish a connection to the database at startup.",
+      "line": 30
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "Similar to the frontend service, restart: always is specified to ensure the backend service is automatically restarted if it crashes, maintaining high availability during development.",
+      "line": 31
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The backend is attached to two networks: spring-mysql-network and front-back-network. \r\n\r\nThe spring-mysql-network is used for communication with the MySQL service, while the front-back-network allows for interaction with the frontend service.",
+      "line": 34
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The environment section defines several variables that the Spring Boot application will use for its configuration.\r\n\r\nThese include details for the database connection such as MYSQL_HOST, which points to the mysqldb service within the Docker Compose network, and credentials such as MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, and MYSQL_PASSWORD.",
+      "line": 40
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The service uses mysql:8.2.0 as its image, which is an official MySQL server Docker image tagged with version 8.2.0.\r\n\r\nThis ensures that you're using a specific, known version of MySQL, which helps maintain consistency across different development environments and avoids unexpected behaviors due to version discrepancies.",
+      "line": 43
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The volumes directive specifies a named volume docker-mysql-volume that is mounted to /var/lib/mysql inside the container.\r\n\r\nThis is the directory where MySQL stores its data files.\r\n\r\nBy using a named volume, the database data persists across container restarts and destruction, which means developers can continue working with the same dataset without data loss.",
+      "line": 45
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "We know what this one does.",
+      "line": 46
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The ports configuration exposes MySQL's default port 3306 to the host, allowing developers to connect to the database from their local machine using various database management tools for development and testing purposes.",
+      "line": 48
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "While the ports directive has already made the MySQL server accessible from the host, the expose directive is an additional declaration that the MySQL port 3306 is intended to be accessible to linked services (like the backend service) on the same network.",
+      "line": 50
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The networks key attaches the MySQL container to spring-mysql-network.\r\n\r\nThis network is shared with the backend service, ensuring that the Spring Boot application can communicate with the MySQL database.",
+      "line": 52
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The environment section is used to define several environment variables that the MySQL server will use upon initialization:\r\n\r\n    MYSQL_ROOT_PASSWORD sets the password for the root user, which is required for MySQL setup.\r\n\r\n    MYSQL_DATABASE specifies the name of a database to be created when the container is started for the first time.\r\n    \r\n    MYSQL_USER and MYSQL_PASSWORD create a new user with the specified password and grant it all privileges on the database specified by MYSQL_DATABASE.",
+      "line": 58
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The volumes section of the Docker Compose file defines persistent storage used by services.\r\n\r\nIn this setup, docker-mysql-volume is specified as a named volume. This volume is crucial for the mysqldb service, as it stores the MySQL database files.\r\n\r\nUsing a named volume ensures that the data persists across container restarts and rebuilds, which is essential for maintaining the state of the development database without data loss.\r\n\r\nThis persistent storage approach allows developers to shut down and restart their development environment without the cumbersome process of reseeding the database.",
+      "line": 60
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "The networks section outlines the custom networks used by the services in this Docker Compose file.\r\n\r\nWe have two networks defined here: spring-mysql-network and front-back-network.\r\n\r\nThese custom networks provide an organized and secure way of managing inter-container communication.\r\n\r\nBy defining explicit networks, we can control which services can connect to each other, improving the security and maintainability of the overall application architecture",
+      "line": 61
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "This concludes our comprehensive CodeTour of the docker-compose-dev.yml file.\r\n\r\nWe've unpacked the configurations for the frontend, backend, and mysqldb services, as well as the persistent volumes and custom networking required to run a full-stack application in a local development environment.\r\n\r\nThe configuration detailed in this file is an example of how Docker Compose can be leveraged to manage complex, multi-container applications, providing developers with the tools needed to develop, test, and iterate on applications quickly and efficiently.\r\n\r\nThe use of Docker Compose here encapsulates the essence of container orchestration: simplifying the developer experience while ensuring consistency and reliability of the development environment.",
+      "line": 64
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "spring-mysql-network is dedicated to the connection between the backend service and the mysqldb service.\r\n\r\nThis separation ensures that database traffic is isolated from other network traffic, which can be important for performance tuning and security within Docker environments.",
+      "line": 62
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "front-back-network is designed for communication between the frontend and backend services.\r\n\r\nIt allows the Angular frontend to make API calls to the Spring Boot backend seamlessly.\r\n\r\nThe creation of this network aligns with the microservices architecture approach, where each service can communicate as needed while remaining loosely coupled.",
+      "line": 63
+    }
+  ],
+  "ref": "code-tour"
+}
