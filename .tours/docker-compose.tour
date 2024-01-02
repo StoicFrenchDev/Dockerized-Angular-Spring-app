@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "Docker Compose for Development",
+  "title": "3 - Docker Compose for Development",
   "steps": [
     {
       "file": "docker-compose-dev.yml",
@@ -19,13 +19,13 @@
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "The target: dev line instructs Docker to target the dev stage in the Dockerfile.\r\n\r\nThis stage is specifically prepared for development, with settings and tools installed that are suitable for a development workflow, such as live reloading and source mapping.",
+      "description": "The target: dev line instructs Docker to target the dev stage in the Dockerfile.\r\n\r\nAs we saw previously, this stage is specifically prepared for development, with settings and tools installed that are suitable for a development workflow, such as live reloading and source mapping.",
       "line": 5
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "args is used to pass build arguments into the Docker build process.\r\n\r\nHere, 'CONFIGURATION: development' is specified, which corresponds to an Angular environment configuration we can find on the dedicated dockerfile.\r\n",
-      "line": 6
+      "description": "args is used to pass build arguments into the Docker build process.\r\n\r\nHere, 'CONFIGURATION: development' is specified, which corresponds to the Angular environment configuration we can find on the dedicated dockerfile.\r\n",
+      "line": 7
     },
     {
       "file": "docker-compose-dev.yml",
@@ -54,13 +54,13 @@
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "The build context points to ./back, which is the directory containing the backend's Dockerfile. \r\n\r\nThe target: dev specifies that Docker should build the backend image using the dev stage defined within the Dockerfile. \r\n\r\nThis stage typically includes dependencies and configurations necessary for development, such as debugging tools and environment-specific application properties.",
-      "line": 24
+      "description": "The backend service defines the environment for our Spring Boot application. It's configured to ensure a smooth workflow and easy integration with other services, like the frontend and database.",
+      "line": 21
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "The backend service defines the environment for our Spring Boot application. It's configured to ensure a smooth workflow and easy integration with other services, like the frontend and database.",
-      "line": 21
+      "description": "The build context points to ./back, which is the directory containing the backend's Dockerfile. \r\n\r\nThe target: dev specifies that Docker should build the backend image using the dev stage defined within the Dockerfile. \r\n\r\nThis stage typically includes dependencies and configurations necessary for development, such as debugging tools and environment-specific application properties.",
+      "line": 24
     },
     {
       "file": "docker-compose-dev.yml",
@@ -104,11 +104,6 @@
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "We know what this one does.",
-      "line": 46
-    },
-    {
-      "file": "docker-compose-dev.yml",
       "description": "The ports configuration exposes MySQL's default port 3306 to the host, allowing developers to connect to the database from their local machine using various database management tools for development and testing purposes.",
       "line": 48
     },
@@ -139,11 +134,6 @@
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "This concludes our comprehensive CodeTour of the docker-compose-dev.yml file.\r\n\r\nWe've unpacked the configurations for the frontend, backend, and mysqldb services, as well as the persistent volumes and custom networking required to run a full-stack application in a local development environment.\r\n\r\nThe configuration detailed in this file is an example of how Docker Compose can be leveraged to manage complex, multi-container applications, providing developers with the tools needed to develop, test, and iterate on applications quickly and efficiently.\r\n\r\nThe use of Docker Compose here encapsulates the essence of container orchestration: simplifying the developer experience while ensuring consistency and reliability of the development environment.",
-      "line": 64
-    },
-    {
-      "file": "docker-compose-dev.yml",
       "description": "spring-mysql-network is dedicated to the connection between the backend service and the mysqldb service.\r\n\r\nThis separation ensures that database traffic is isolated from other network traffic, which can be important for performance tuning and security within Docker environments.",
       "line": 62
     },
@@ -151,6 +141,11 @@
       "file": "docker-compose-dev.yml",
       "description": "front-back-network is designed for communication between the frontend and backend services.\r\n\r\nIt allows the Angular frontend to make API calls to the Spring Boot backend seamlessly.\r\n\r\nThe creation of this network aligns with the microservices architecture approach, where each service can communicate as needed while remaining loosely coupled.",
       "line": 63
+    },
+    {
+      "file": "docker-compose-dev.yml",
+      "description": "This concludes our comprehensive CodeTour of the docker-compose-dev.yml file.\r\n\r\nWe've gone through the configurations for the frontend, backend, and mysqldb services, as well as the persistent volumes and custom networking required to run a full-stack application in a local development environment.\r\n\r\nThe configuration detailed in this file is an example of how Docker Compose can be leveraged to manage multi-container applications, providing developers with the tools needed to develop, test, and iterate on applications quickly and efficiently.\r\n\r\nThe use of Docker Compose here encapsulates the essence of container orchestration: simplifying the developer experience while ensuring consistency and reliability of the development environment.\r\n\r\nThe next tour will focus on the production version of this document.",
+      "line": 64
     }
   ],
   "ref": "code-tour"

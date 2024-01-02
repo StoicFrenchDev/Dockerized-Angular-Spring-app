@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "Docker Compose for Production",
+  "title": "4 - Docker Compose for Production",
   "steps": [
     {
       "file": "docker-compose.yml",
@@ -9,7 +9,7 @@
     },
     {
       "file": "docker-compose.yml",
-      "description": "The target: prod in the build context indicates that the Docker build should use the prod stage defined in the Dockerfile.\r\n\r\nThis stage is likely optimized for production, without the additional development dependencies and might include different optimization steps like minification.",
+      "description": "The target: prod in the build context indicates that the Docker build should use the prod stage defined in the Angular Dockerfile.\r\n\r\nAs we saw on the tour of this Dockerfile, this stage is optimized for production, without the additional development dependencies.",
       "line": 5
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "file": "docker-compose.yml",
-      "description": "The port mapping 4200:4200 is standard for both development and production. \r\n\r\nHowever, in production, you typically would not map the port directly but rather use a reverse proxy or load balancer in front of the application.",
+      "description": "The port mapping 4200:4200 is standard for both development and production. \r\n\r\nHowever, in production, you typically would not map the port directly but rather use a reverse proxy or load balancer in front of the application (I won't provide further explaination on this subject).",
       "line": 11
     },
     {
@@ -29,13 +29,33 @@
     },
     {
       "file": "docker-compose.yml",
-      "description": "The context: ./java_21 gives the directory for the backend service,  containing a production-ready version of the application thanks to the Dockerfile.\r\n\r\nThe target: production indicates that the Docker build for the backend service should use the production stage in the Dockerfile.",
+      "description": "The context: ./java_21 gives the directory for the backend service,  containing a production-ready version of the application thanks to the Dockerfile.\r\n\r\nThe target: production indicates that the Docker build for the backend service should use the production stage in the Dockerfile. You may refer to the code tour of the Spring Dockerfile to see the production stage.",
       "line": 20
     },
     {
       "file": "docker-compose.yml",
-      "description": "The production port configuration 8080:8080 is standard, similar to development, but again, as for the frontend you might typically use a reverse proxy in a production deployment.",
+      "description": "The production port configuration 8080:8080 is standard, similar to development, but then again, as for the frontend you might typically use a reverse proxy in a production deployment.",
       "line": 28
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "In both the backend and mysqldb service configurations, several environment variables are set up to facilitate database connectivity and configuration. While these variables are essential for the functioning of the services, they also present potential security concerns.\r\n\r\nBeing a project made for students to learn about Docker and its features, I thought it would be wise to talk about how we could secure this production file in a better way, giving a few recommendations.\r\n\r\n",
+      "line": 48
+    },
+    {
+      "file": "docker-compose.yml",
+      "description": "Hardcoded Credentials:\r\n\r\nThe use of hardcoded credentials, such as MYSQL_ROOT_PASSWORD: root, MYSQL_USER: yvens, and MYSQL_PASSWORD: yvens_password, is a significant security risk. \r\nShould the Docker Compose file be exposed or stored in a version control system, these credentials could be compromised.\r\n\r\nRecommendation:\r\nUse Docker secrets or environment variables injected at runtime for sensitive data. Avoid checking in passwords and other sensitive information into source control. For Docker Compose, consider using an .env file to store sensitive values and reference these values in the Compose file.\r\n\r\n\r\nExposed and Published Ports:\r\n\r\nThe MySQL service exposes and publishes port 3306, which might not be necessary if it's only accessed by other services within the Docker Compose network. \r\n\r\nRecommendation:\r\nConsider removing the ports directive if external access isn't required, and rely on Docker's internal networking for inter-service communication.\r\n\r\n\r\nRedundant MYSQL_HOST Environment Variable:\r\n\r\nThe MYSQL_HOST environment variable in the mysqldb service is redundant and could be misleading.\r\n\r\nRecommendation: \r\nRemoving the MYSQL_HOST environment variable from the mysqldb service would be a good idea. Since this service is the database itself, it does not require its own host information for internal operation.",
+      "line": 53,
+      "selection": {
+        "start": {
+          "line": 7,
+          "character": 1
+        },
+        "end": {
+          "line": 7,
+          "character": 352
+        }
+      }
     }
   ],
   "ref": "code-tour"
