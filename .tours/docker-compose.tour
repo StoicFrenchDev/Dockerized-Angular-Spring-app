@@ -69,7 +69,7 @@
     },
     {
       "file": "docker-compose-dev.yml",
-      "description": "The volumes configuration mounts the local ./back/ directory to /workspace/app inside the container.\r\n\r\nThis mount is important for development, as it allows for changes made locally to be reflected inside the running container without the need for a rebuild, facilitating a faster development cycle.",
+      "description": "The volumes configuration mounts the local ./back/ directory to /workspace/app inside the container.\r\n\r\nThis mount is important for development, as it enables live reloading, as changes to your source files on the host will be reflected inside the container.\r\n\r\nNote that we do not necessary code within the container. Some devs will code localy and then test their app through the container before pushing their work (as we said previously, container environments are closer to prod).",
       "line": 28
     },
     {
